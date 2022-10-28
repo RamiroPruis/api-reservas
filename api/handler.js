@@ -40,8 +40,8 @@ function getById(req, res, id){
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(JSON.stringify({reserva}))
     }
-    catch{
-        errorHandler(ERROR_CODE,"Error en la busqueda de la reserva",res)
+    catch(e){
+        errorHandler(ERROR_CODE,e,res)
     }
 }
 
@@ -53,13 +53,15 @@ function postById(req, res, id){
 
     req.on('end',()=>{
         const reserva = JSON.parse(body)
+        reserva.id = id
         try{
+            
             Reservas.create(reserva)
             res.writeHead(200,{'Content-Type': 'application/json'})
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
         }
-        catch{
-            errorHandler(ERROR_CODE,"Error al crear una reserva",res)
+        catch(e){
+            errorHandler(ERROR_CODE,e,res)
         }
     })
 

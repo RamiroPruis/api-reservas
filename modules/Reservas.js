@@ -2,7 +2,11 @@ import fs from 'fs'
 
 
 const updateFile = () => {
-    fs.writeFile('./modules/Reservas.json',JSON.stringify(reservas))
+    fs.writeFile('./modules/Reservas.json',JSON.stringify(reservas, null, '\t'),(error)=>{
+        if (error){
+            throw "No se pudo sobreescribir el archivo";
+        }
+    })
 }
 
 let reservas = fs.readFileSync("./modules/Reservas.json")
@@ -24,13 +28,19 @@ export function findById(id){
 
 export function create(reserva){
     let res = reservas.findIndex((r) => (r.id==reserva.id))
-    if (arr[res].userId == null){
-        reservas[res].userId = reserva.userId
-        reservas[res].email = reserva.email
-        updateFile()
-    }else{
-        throw "No se puede asignar el turno, el mismo ya esta ocupado."
+    if (res != -1){
+        if (reservas[res].userId == null){
+            reservas[res].userId = reserva.userId
+            reservas[res].email = reserva.email
+            updateFile()
+        }else{
+            throw "No se puede asignar el turno, el mismo ya esta ocupado."
+        }
     }
+    else{
+        throw "No se encontro el turno."
+    }
+    
         
 }
 
