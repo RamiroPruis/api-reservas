@@ -3,6 +3,7 @@ import reservas from "./api/handler"
 
 
 const PORT = 2001
+export const ERROR_CODE = 404
 
 
 const server = http.createServer((req,res)=>{

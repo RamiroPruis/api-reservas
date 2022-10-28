@@ -1,5 +1,6 @@
 
-
+import errorHandler from "../error"
+import ERROR_CODE from "../index"
 
 
 const METHOD_HANDLER = {
@@ -25,7 +26,40 @@ export default reservas = (req, res) => {
             METHOD_HANDLER[method](req,res)
         }
         catch{
-            errorHandler(405,"Metodo no permitido",res)
+            errorHandler(ERROR_CODE,"Metodo no permitido",res)
         }
     }  
+}
+
+function getById(req, res, id){
+    
+    const reserva = Reservas.find(id)
+    if (reserva != null){
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.end(JSON.stringify({reserva}))
+    }
+    else{
+        errorHandler(ERROR_CODE,"Error en la busqueda de la reserva",res)
+    }
+}
+
+function postById(req, res, id){
+    let body = []
+    req.on('data',(chunk)=>{
+        body += chunk
+    })
+
+    req.on('end',()=>{
+        const reserva = JSON.parse(body)
+        const id = Sucursales.create(sucursal)
+        
+        res.writeHead(201,{'Content-Type': 'application/json'})
+        res.end(JSON.stringify({id}))
+    })
+
+
+}
+
+function deleteById(req, res, id){
+
 }
