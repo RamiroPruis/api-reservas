@@ -1,7 +1,7 @@
 
 import errorHandler from "../error"
 import ERROR_CODE from "../index"
-
+import Reservas from "/modules/Reservas.js"
 
 const METHOD_HANDLER = {
     GET: get
