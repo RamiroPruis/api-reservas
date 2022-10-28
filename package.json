@@ -1,0 +1,25 @@
+{
+  "name": "api-reservas",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000a\u0000p\u0000i\u0000-\u0000r\u0000e\u0000s\u0000e\u0000r\u0000v\u0000a\u0000s\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RamiroPruis/api-reservas.git"
+  },
+  "keywords": [],
+  "author": "Ramiro Pruis, Mariano Garcia, Joaquin Fioriti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RamiroPruis/api-reservas/issues"
+  },
+  "homepage": "https://github.com/RamiroPruis/api-reservas#readme",
+  "dependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
