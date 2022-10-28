@@ -1,7 +1,7 @@
 
 import errorHandler from "../error"
 import ERROR_CODE from "../index"
-import * as Reservas from "../modules/Reservas"
+import * as Reservas from "../modules/Reservas.js"
 import url from "url"
 
 
