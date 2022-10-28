@@ -2,6 +2,8 @@
 import errorHandler from "../error"
 import ERROR_CODE from "../index"
 import * as Reservas from "../modules/Reservas"
+import url from "url"
+
 
 const METHOD_HANDLER = {
     GET: get
@@ -33,12 +35,12 @@ export default reservas = (req, res) => {
 
 function getById(req, res, id){
     
-    const reserva = Reservas.find(id)
-    if (reserva != null){
+    try{
+        const reserva = Reservas.find(id)
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(JSON.stringify({reserva}))
     }
-    else{
+    catch{
         errorHandler(ERROR_CODE,"Error en la busqueda de la reserva",res)
     }
 }
@@ -51,10 +53,14 @@ function postById(req, res, id){
 
     req.on('end',()=>{
         const reserva = JSON.parse(body)
-        const id = Sucursales.create(sucursal)
-        
-        res.writeHead(201,{'Content-Type': 'application/json'})
-        res.end(JSON.stringify({id}))
+        try{
+            Reservas.create(reserva)
+            res.writeHead(200,{'Content-Type': 'application/json'})
+            res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
+        }
+        catch{
+            errorHandler(ERROR_CODE,"Error al crear una reserva",res)
+        }
     })
 
 
