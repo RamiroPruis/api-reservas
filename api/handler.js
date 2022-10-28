@@ -69,7 +69,15 @@ function postById(req, res, id){
 }
 
 function delById(req, res, id){
-
+    try{
+    
+        Reservas.del(id)
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.end(JSON.stringify({}))
+    }
+    catch(e){
+        errorHandler(ERROR_CODE,e,res)
+    }
 }
 
 

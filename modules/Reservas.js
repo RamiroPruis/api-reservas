@@ -46,9 +46,9 @@ export function create(reserva){
 
 export function del(id){
     let res = reservas.findIndex((r)=>r.id==id)
-    if (arr[res]!=null){
-        arr[res].userId = null;
-        arr[res].email = null;
+    if (reservas[res]!=null){
+        reservas[res].userId = null;
+        reservas[res].email = null;
         updateFile()
     }else{
         throw "No se puede eliminar el turno, no hay uno asociado al Id mencionado."
