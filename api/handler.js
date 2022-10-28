@@ -34,7 +34,7 @@ export default reservas = (req, res) => {
 }
 
 function getById(req, res, id){
-    
+    console.log("Entramos al get con el id", id)
     try{
         const reserva = Reservas.find(id)
         res.writeHead(200, {'Content-Type': 'application/json'})
