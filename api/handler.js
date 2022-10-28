@@ -1,13 +1,13 @@
 
-import errorHandler from "../error"
-import ERROR_CODE from "../index"
-import * as Reservas from "../modules/Reservas"
+import errorHandler from "../error.js"
+import {ERROR_CODE} from "../index.js"
+import * as Reservas from "../modules/Reservas.js"
 import url from "url"
 
 
-const METHOD_HANDLER = {
-    GET: get
-}
+// const METHOD_HANDLER = {
+//     GET: get
+// }
 
 const ID_METHOD_HANDLER = {
     GET: getById,
@@ -15,7 +15,7 @@ const ID_METHOD_HANDLER = {
     DELETE: delById
 }
 
-export default reservas = (req, res) => {
+export const reservas = (req, res) => {
 
     const {url, method} = req
     const id = url.split('/').pop()
@@ -36,7 +36,7 @@ export default reservas = (req, res) => {
 function getById(req, res, id){
     console.log("Entramos al get con el id", id)
     try{
-        const reserva = Reservas.find(id)
+        const reserva = Reservas.findById(id)
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(JSON.stringify({reserva}))
     }
@@ -66,6 +66,8 @@ function postById(req, res, id){
 
 }
 
-function deleteById(req, res, id){
+function delById(req, res, id){
 
 }
+
+
