@@ -5,9 +5,6 @@ import * as Reservas from "../modules/Reservas.js"
 import url from "url"
 
 
-// const METHOD_HANDLER = {
-//     GET: get
-// }
 
 const ID_METHOD_HANDLER = {
     GET: getById,
@@ -15,12 +12,18 @@ const ID_METHOD_HANDLER = {
     DELETE: delById
 }
 
+const METHOD_HANDLER = {
+    GET: getAll
+}
+
 export const reservas = (req, res) => {
+    const {method} = req
+    const id = req.url.split('/').pop()
 
-    const {url, method} = req
-    const id = url.split('/').pop()
+    const queryObject = url.parse(req.url,true).query || null
 
-    if (id.match(/[0-9]+/)){
+    if (id.match(/[0-9]+/) && !Object.keys(queryObject).length){
+        
         ID_METHOD_HANDLER[method](req,res,id)
     }
     else{
@@ -34,7 +37,6 @@ export const reservas = (req, res) => {
 }
 
 function getById(req, res, id){
-    console.log("Entramos al get con el id", id)
     try{
         const reserva = Reservas.findById(id)
         res.writeHead(200, {'Content-Type': 'application/json'})
@@ -80,4 +82,12 @@ function delById(req, res, id){
     }
 }
 
+function getAll(req,res){
+    const queryObject = url.parse(req.url,true).query
 
+    const reservas = Reservas.findWithFilters(queryObject)
+
+
+    res.writeHead(200,{'Content-Type': 'application/json'})
+    res.end(JSON.stringify(reservas))
+}
