@@ -1,6 +1,6 @@
 
-import errorHandler from "../error"
-import ERROR_CODE from "../index"
+import errorHandler from "../error.js"
+import {ERROR_CODE} from "../index.js"
 import * as Reservas from "../modules/Reservas.js"
 import url from "url"
 
@@ -15,7 +15,7 @@ const ID_METHOD_HANDLER = {
     DELETE: delById
 }
 
-export default reservas = (req, res) => {
+export const reservas = (req, res) => {
 
     const {url, method} = req
     const id = url.split('/').pop()
@@ -36,12 +36,12 @@ export default reservas = (req, res) => {
 function getById(req, res, id){
     console.log("Entramos al get con el id", id)
     try{
-        const reserva = Reservas.find(id)
+        const reserva = Reservas.findById(id)
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(JSON.stringify({reserva}))
     }
-    catch{
-        errorHandler(ERROR_CODE,"Error en la busqueda de la reserva",res)
+    catch(e){
+        errorHandler(ERROR_CODE,e,res)
     }
 }
 
@@ -53,19 +53,31 @@ function postById(req, res, id){
 
     req.on('end',()=>{
         const reserva = JSON.parse(body)
+        reserva.id = id
         try{
+            
             Reservas.create(reserva)
             res.writeHead(200,{'Content-Type': 'application/json'})
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
         }
-        catch{
-            errorHandler(ERROR_CODE,"Error al crear una reserva",res)
+        catch(e){
+            errorHandler(ERROR_CODE,e,res)
         }
     })
 
 
 }
 
-function deleteById(req, res, id){
-
+function delById(req, res, id){
+    try{
+    
+        Reservas.del(id)
+        res.writeHead(200, {'Content-Type': 'application/json'})
+        res.end(JSON.stringify({}))
+    }
+    catch(e){
+        errorHandler(ERROR_CODE,e,res)
+    }
 }
+
+
