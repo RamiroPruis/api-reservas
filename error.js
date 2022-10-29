@@ -1,7 +1,7 @@
 export default function errorHandler(code,msg,res){
-    res.writeHead(code)
+    res.writeHead(code,{'Content-Type':'application/json'})
     const obj = {
-        response: msg
+        messageError: msg
     }
     res.end(JSON.stringify(obj))
 }
