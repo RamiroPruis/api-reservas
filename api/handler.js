@@ -3,6 +3,8 @@ import errorHandler from "../error.js"
 import {ERROR_CODE} from "../index.js"
 import * as Reservas from "../modules/Reservas.js"
 import url from "url"
+import enviarMail from "../sender.js"
+
 
 
 
@@ -58,8 +60,9 @@ function postById(req, res, id){
         reserva.id = id
         try{
             
-            Reservas.create(reserva)
+            const reservaCreada = Reservas.create(reserva)
             res.writeHead(200,{'Content-Type': 'application/json'})
+            enviarMail(reservaCreada)
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
         }
         catch(e){
@@ -87,7 +90,7 @@ function getAll(req,res){
 
     const reservas = Reservas.findWithFilters(queryObject)
 
-
     res.writeHead(200,{'Content-Type': 'application/json'})
     res.end(JSON.stringify(reservas))
 }
+

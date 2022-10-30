@@ -2,15 +2,15 @@
 	{
 		"id": 1,
 		"dateTime": "2022-11-02T15:58:10.406Z",
-		"userId": null,
-		"email": null,
+		"userId": "paqui",
+		"email": "joaquinfioriti9@gmail.com",
 		"branchId": 3
 	},
 	{
 		"id": 2,
 		"dateTime": "2022-11-02T19:58:10.406Z",
-		"userId": 3,
-		"email": "ramapruis@gmail.com",
+		"userId": "paqui",
+		"email": "joaquinfioriti9@gmail.com",
 		"branchId": 3
 	},
 	{

@@ -2,7 +2,7 @@ import fs from 'fs'
 
 
 const updateFile = () => {
-    fs.writeFile('./modules/Reservas.json',JSON.stringify(reservas, null, '\t'),(error)=>{
+    fs.writeFileSync('./modules/Reservas.json',JSON.stringify(reservas, null, '\t'),(error)=>{
         if (error){
             throw "No se pudo sobreescribir el archivo";
         }
@@ -19,8 +19,6 @@ export function find(){
 
 export function findWithFilters(query){
     let {branchId,dateTime,userId} = query
-
-    console.log(userId)
 
     return reservas.filter(r => (r.branchId == branchId || !branchId) && (new Date(r.dateTime).toLocaleDateString() == dateTime || !dateTime) && (r.userId == userId || !userId))
 }
@@ -39,7 +37,9 @@ export function create(reserva){
         if (reservas[res].userId == null){
             reservas[res].userId = reserva.userId
             reservas[res].email = reserva.email
+            const reservaCreada = reservas[res]
             updateFile()
+            return reservaCreada
         }else{
             throw "No se puede asignar el turno, el mismo ya esta ocupado."
         }
