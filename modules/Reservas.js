@@ -1,5 +1,8 @@
 import fs from 'fs'
 
+const DISPONIBLE = 0
+const RESERVADO = 1
+const CONFIRMANDO = 2
 
 const updateFile = () => {
     fs.writeFileSync('./modules/Reservas.json',JSON.stringify(reservas, null, '\t'),(error)=>{
@@ -31,12 +34,20 @@ export function findById(id){
         throw "No existe reserva con ese id"
 } 
 
-export function create(reserva){
+export function create(reserva, status){
     let res = reservas.findIndex((r) => (r.id==reserva.id))
     if (res != -1){
         if (reservas[res].userId == null){
             reservas[res].userId = reserva.userId
             reservas[res].email = reserva.email
+            reservas[res].status = status
+            
+            //Si se esta confirmando
+            if (status == CONFIRMANDO){
+                console.log("hola", reserva.id)
+                setTimeout(checkIfConfirmed(reserva.id), 10000/2);//1 minutos
+            }
+
             const reservaCreada = reservas[res]
             updateFile()
             return reservaCreada
@@ -62,3 +73,16 @@ export function del(id){
     }
 }
 
+function checkIfConfirmed(id){
+    const res = reservas.findIndex((r) => (r.id == id))
+    console.log("Vamos a checkear si sigue vigente 2222")
+    console.log(reservas[res])
+    if (reservas[res].status != RESERVADO){
+        console.log("NO ESTA RESERVADO LO VOLVEMOS A PONER DISPO")
+        reservas[res].status = DISPONIBLE
+        reservas[res].userId = null
+        reservas[res].email = null
+        updateFile()
+    }
+
+}
