@@ -37,15 +37,14 @@ export function findById(id){
 export function create(reserva, status){
     let res = reservas.findIndex((r) => (r.id==reserva.id))
     if (res != -1){
-        if (reservas[res].userId == null){
+        if (reservas[res].status != RESERVADO){
             reservas[res].userId = reserva.userId
             reservas[res].email = reserva.email
             reservas[res].status = status
             
             //Si se esta confirmando
             if (status == CONFIRMANDO){
-                console.log("hola", reserva.id)
-                setTimeout(checkIfConfirmed(reserva.id), 10000/2);//1 minutos
+                setTimeout(checkIfConfirmed, 10000, reserva.id);//1 minutos
             }
 
             const reservaCreada = reservas[res]
@@ -67,6 +66,7 @@ export function del(id){
     if (reservas[res]!=null){
         reservas[res].userId = null;
         reservas[res].email = null;
+        reservas[res].status = DISPONIBLE
         updateFile()
     }else{
         throw "No se puede eliminar el turno, no hay uno asociado al Id mencionado."
@@ -75,10 +75,8 @@ export function del(id){
 
 function checkIfConfirmed(id){
     const res = reservas.findIndex((r) => (r.id == id))
-    console.log("Vamos a checkear si sigue vigente 2222")
-    console.log(reservas[res])
+
     if (reservas[res].status != RESERVADO){
-        console.log("NO ESTA RESERVADO LO VOLVEMOS A PONER DISPO")
         reservas[res].status = DISPONIBLE
         reservas[res].userId = null
         reservas[res].email = null

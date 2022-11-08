@@ -70,7 +70,6 @@ function postById(req, res, id){
                 enviarMail(reservaCreada)
             }
             else if (tipo == "solicitar"){
-                console.log("Intentando solicitar")
                 reservaCreada = Reservas.create(reserva, CONFIRMANDO)
             }
             
