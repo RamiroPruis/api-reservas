@@ -32,7 +32,7 @@ export function findWithFilters(query) {
     
     dateTime =dateTime ? dateTime.replaceAll("-","/") : null
 
-    return reservas.filter(r => (r.branchId == branchId || !branchId) && (new Date(r.dateTime).toLocaleDateString() == dateTime || !dateTime) && (r.userId == userId || !userId))
+    return reservas.filter(r => (r.branchId == branchId || !branchId) && (new Date(r.dateTime).toLocaleDateString() == new Date(dateTime).toLocaleDateString() || !dateTime) && (r.userId == userId || !userId))
 }
 
 
