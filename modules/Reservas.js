@@ -19,8 +19,18 @@ export function find() {
   return reservas
 }
 
+export function findById(id){
+    const reserva = reservas.find((r) => r.id == id)
+    if (reserva!=null)
+        return reserva
+    else
+        throw "No existe reserva con ese id"
+} 
+
 export function findWithFilters(query) {
   let { branchId, dateTime, userId } = query
+    
+    dateTime =dateTime ? dateTime.replaceAll("-","/") : null
 
     return reservas.filter(r => (r.branchId == branchId || !branchId) && (new Date(r.dateTime).toLocaleDateString() == dateTime || !dateTime) && (r.userId == userId || !userId))
 }
