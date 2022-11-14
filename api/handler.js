@@ -3,6 +3,12 @@ import errorHandler from "../error.js"
 import {ERROR_CODE} from "../index.js"
 import * as Reservas from "../modules/Reservas.js"
 import url from "url"
+import enviarMail from "../sender.js"
+
+const DISPONIBLE = 0
+const RESERVADO = 1
+const CONFIRMANDO = 2
+
 
 
 
@@ -23,7 +29,6 @@ export const reservas = (req, res) => {
     const queryObject = url.parse(req.url,true).query || null
 
     if (id.match(/[0-9]+/) && !Object.keys(queryObject).length){
-        
         ID_METHOD_HANDLER[method](req,res,id)
     }
     else{
@@ -56,10 +61,18 @@ function postById(req, res, id){
     req.on('end',()=>{
         const reserva = JSON.parse(body)
         reserva.id = id
+        const tipo = req.url.split('/')[3]
+        let reservaCreada;
         try{
+            if (tipo == "confirmar"){
+                reservaCreada = Reservas.create(reserva, RESERVADO)
+                res.writeHead(200,{'Content-Type': 'application/json'})
+                enviarMail(reservaCreada)
+            }
+            else if (tipo == "solicitar"){
+                reservaCreada = Reservas.create(reserva, CONFIRMANDO)
+            }
             
-            Reservas.create(reserva)
-            res.writeHead(200,{'Content-Type': 'application/json'})
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
         }
         catch(e){
@@ -87,7 +100,7 @@ function getAll(req,res){
 
     const reservas = Reservas.findWithFilters(queryObject)
 
-
     res.writeHead(200,{'Content-Type': 'application/json'})
     res.end(JSON.stringify(reservas))
 }
+
