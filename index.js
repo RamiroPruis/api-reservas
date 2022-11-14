@@ -18,7 +18,7 @@ const server = http.createServer((req,res)=>{
     if (!urlParsed.pathname.includes('/api/reservas')){
         errorHandler(400,"Endpoint no valido",res)
     } else{
-        if(urlParsed.pathname.match(/\/api\/reservas(\/[0-9]+)?/) || urlParsed.pathname === '/api/reservas'){ //Como hacemos con los query params? ashe 
+        if(urlParsed.pathname.includes('/api/reservas')){ //Como hacemos con los query params? ashe 
             reservas(req,res)
         }else{
             errorHandler(400,"Endpoint no valido",res)
