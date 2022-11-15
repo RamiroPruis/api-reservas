@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs from "fs"
 
 const DISPONIBLE = 0
 const RESERVADO = 1
@@ -36,6 +36,15 @@ export function findById(id){
         throw "No existe reserva con ese id"
 } 
 
+export function findWithFilters(query) {
+  let { branchId, dateTime, userId } = query
+    
+    dateTime =dateTime ? dateTime.replaceAll("-","/") : null
+
+    return reservas.filter(r => (r.branchId == branchId || !branchId) && (new Date(r.dateTime).toLocaleDateString() == new Date(dateTime).toLocaleDateString() || !dateTime) && (r.userId == userId || !userId))
+}
+
+
 export function create(reserva, status){
     let res = reservas.findIndex((r) => (r.id==reserva.id))
     if (res != -1){
@@ -59,9 +68,8 @@ export function create(reserva, status){
     else{
         throw "No se encontro el turno."
     }
-    
-        
-}
+} 
+
 
 export function del(id){
     let res = reservas.findIndex((r)=>r.id==id)
@@ -84,5 +92,5 @@ function checkIfConfirmed(id){
         reservas[res].email = null
         updateFile()
     }
-
 }
+
