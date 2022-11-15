@@ -15,8 +15,17 @@ const updateFile = () => {
 let reservas = fs.readFileSync("./modules/Reservas.json")
 reservas = JSON.parse(reservas)
 
-export function find() {
-  return reservas
+
+export function find(){
+    return reservas
+}
+
+export function findWithFilters(query){
+    let {branchId,dateTime,userId} = query
+
+    dateTime =dateTime ? dateTime.replaceAll("-","/") : null
+
+    return reservas.filter(r => (r.branchId == branchId || !branchId) && (new Date(r.dateTime).toLocaleDateString() == new Date(dateTime).toLocaleDateString() || !dateTime) && (r.userId == userId || !userId))
 }
 
 export function findById(id){
@@ -68,7 +77,7 @@ export function create(reserva, status){
 export function del(id){
     let res = reservas.findIndex((r)=>r.id==id)
     if (reservas[res]!=null){
-        reservas[res].userId = null;
+        reservas[res].userId = -1;
         reservas[res].email = null;
         reservas[res].status = DISPONIBLE
         updateFile()
@@ -82,7 +91,7 @@ function checkIfConfirmed(id){
 
     if (reservas[res].status != RESERVADO){
         reservas[res].status = DISPONIBLE
-        reservas[res].userId = null
+        reservas[res].userId = -1
         reservas[res].email = null
         updateFile()
     }
