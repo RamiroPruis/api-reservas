@@ -73,7 +73,7 @@ function postById(req, res, id){
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
         }
         catch(e){
-            console.log(e)
+            console.log(e,res)
             errorHandler(ERROR_CODE,e,res)
         }
     })
