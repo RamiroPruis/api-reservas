@@ -1,3 +1,4 @@
+import { throws } from 'assert'
 import http from 'http'
 
 const PORT_MAILER = 2020
@@ -34,7 +35,8 @@ function enviarMail(reserva){
 
 const sendMail = (options,body) => {
 
-
+    
+        
     const req = http.request(options,(res)=>{
         let data = []
     
@@ -49,10 +51,13 @@ const sendMail = (options,body) => {
             }
         })
     })
-   
+    
+    
+    req.on("error",(error)=>{
+        console.log("No se pudo mandar el mail porque el microservicio no esta disponible")
+    })
     req.write(JSON.stringify(body)) 
     req.end()
-    
 }
 
 

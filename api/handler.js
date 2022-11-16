@@ -66,13 +66,17 @@ function postById(req, res, id){
         try{
             if (tipo == "confirmar"){
                 reservaCreada = Reservas.create(reserva, RESERVADO)
+                console.log("Se confirmo la reserva")
                 res.writeHead(200,{'Content-Type': 'application/json'})
+                console.log("intentemos enviar mail")
                 enviarMail(reservaCreada)
+               
+                
             }
             else if (tipo == "solicitar"){
                 reservaCreada = Reservas.create(reserva, CONFIRMANDO)
+                console.log("Se solicito la reserva")
             }
-            
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
         }
         catch(e){
