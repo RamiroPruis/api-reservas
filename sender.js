@@ -26,8 +26,11 @@ function enviarMail(reserva){
                 </p>`
     }    
    
-
-    sendMail(options,data)
+    try{
+        sendMail(options,data)
+    }catch(e){
+        console.log("No se pudo mandar el mail debido a que el endpoint no se encuentra disponible, reintente mas tarde.")
+    }
   
 
 }
@@ -48,8 +51,12 @@ const sendMail = (options,body) => {
                 setTimeout(sendMail(options,data),5000)
             }
         })
+
     })
-   
+
+    req.on('error', () => {
+        console.log("No se pudo conectar con API Notificaciones.")
+    })
     req.write(JSON.stringify(body)) 
     req.end()
     

@@ -38,7 +38,6 @@ export function findById(id){
 
 export function create(reserva, status){
     let res = reservas.findIndex((r) => (r.id==reserva.id))
-    console.log(res)
     if (res != -1){
         if (reservas[res].status != RESERVADO){
             reservas[res].userId = reserva.userId
@@ -51,13 +50,11 @@ export function create(reserva, status){
                 setTimeout(checkIfConfirmed, 3000, reserva.id);//1 minutos
             }else{
                 if (reservas[res].status == SOLICITANDO){
-                    console.log("el estado de la reserva",res,"es solicitando")
                     reservas[res].status = status
                     updateFile()
                     return reservas[res]
                 }
                 else{
-                    console.log("NO SE CONFIRMOOOOOO")
                     throw "Pasaron mas de 60 segundos y no se confirmó el turno solicitado. Turno liberado, vuelva a intentarlo."
                 }
             }          
@@ -87,7 +84,6 @@ function checkIfConfirmed(id){
     const res = reservas.findIndex((r) => (r.id == id))
 
     if (reservas[res].status != RESERVADO){
-        console.log("CHECK IF CONFIRMED --> NO ESTA RESERVADO")
         reservas[res].status = DISPONIBLE
         reservas[res].userId = -1
         reservas[res].email = null
