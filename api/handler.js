@@ -31,6 +31,7 @@ export const reservas = (req, res) => {
     }
     else{
         try{
+            console.log("hla", method)
             METHOD_HANDLER[method](req,res)
         }
         catch{
@@ -97,11 +98,16 @@ function delById(req, res, id){
 }
 
 function getAll(req,res){
+    console.log("holaaa2")
     const queryObject = url.parse(req.url,true).query
+    console.log("hola3")
 
     const reservas = Reservas.findWithFilters(queryObject)
+    console.log("hola4")
 
     res.writeHead(200,{'Content-Type': 'application/json'})
+    console.log("hola5", reservas)
     res.end(JSON.stringify(reservas))
+    console.log("hola6")
 }
 

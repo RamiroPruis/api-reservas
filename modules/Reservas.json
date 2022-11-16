@@ -10,34 +10,34 @@
 	{
 		"id": 2,
 		"dateTime": "2022-11-02T19:58:10.406Z",
-		"userId": "paqui",
-		"email": "asd",
+		"userId": -1,
+		"email": null,
 		"branchId": 3,
-		"status": 1
+		"status": 0
 	},
 	{
 		"id": 6,
 		"dateTime": "2022-10-29T01:20:10.406Z",
-		"userId": "paqui",
-		"email": "asd",
+		"userId": -1,
+		"email": null,
 		"branchId": 3,
-		"status": 1
+		"status": 0
 	},
 	{
 		"id": 7,
 		"dateTime": "2022-10-29T01:21:10.406Z",
-		"userId": "paqui",
-		"email": "asd",
+		"userId": -1,
+		"email": null,
 		"branchId": 3,
-		"status": 1
+		"status": 0
 	},
 	{
 		"id": 8,
 		"dateTime": "2022-10-29T14:36:10.406Z",
-		"userId": "paqui",
-		"email": "asd",
+		"userId": -1,
+		"email": null,
 		"branchId": 3,
-		"status": 1
+		"status": 0
 	},
 	{
 		"id": 9,

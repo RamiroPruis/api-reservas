@@ -16,7 +16,13 @@ let reservas = fs.readFileSync("./modules/Reservas.json")
 reservas = JSON.parse(reservas)
 
 
+export function findWithFilters(query){
+    let {branchId,dateTime,userId} = query
 
+    dateTime =dateTime ? dateTime.replaceAll("-","/") : null
+
+    return reservas.filter(r => (r.branchId == branchId || !branchId) && (new Date(r.dateTime).toLocaleDateString() == new Date(dateTime).toLocaleDateString() || !dateTime) && (r.userId == userId || !userId))
+}
 
 export function findById(id){
     const reserva = reservas.find((r) => r.id == id)
