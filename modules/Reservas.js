@@ -2,7 +2,7 @@ import fs from "fs"
 
 const DISPONIBLE = 0
 const RESERVADO = 1
-const CONFIRMANDO = 2
+const SOLICITANDO = 2
 
 const updateFile = () => {
     fs.writeFileSync('./modules/Reservas.json',JSON.stringify(reservas, null, '\t'),(error)=>{
@@ -36,34 +36,31 @@ export function findById(id){
         throw "No existe reserva con ese id"
 } 
 
-export function findWithFilters(query) {
-  let { branchId, dateTime, userId } = query
-    
-    dateTime =dateTime ? dateTime.replaceAll("-","/") : null
-
-    return reservas.filter(r => (r.branchId == branchId || !branchId) && (new Date(r.dateTime).toLocaleDateString() == new Date(dateTime).toLocaleDateString() || !dateTime) && (r.userId == userId || !userId))
-}
-
-export function findById(){
-
-}
-
 export function create(reserva, status){
     let res = reservas.findIndex((r) => (r.id==reserva.id))
+    console.log(res)
     if (res != -1){
         if (reservas[res].status != RESERVADO){
             reservas[res].userId = reserva.userId
             reservas[res].email = reserva.email
-            reservas[res].status = status
             
             //Si se esta confirmando
-            if (status == CONFIRMANDO){
-                setTimeout(checkIfConfirmed, 10000, reserva.id);//1 minutos
-            }
-
-            const reservaCreada = reservas[res]
-            updateFile()
-            return reservaCreada
+            if (status == SOLICITANDO){
+                reservas[res].status = status
+                updateFile()
+                setTimeout(checkIfConfirmed, 3000, reserva.id);//1 minutos
+            }else{
+                if (reservas[res].status == SOLICITANDO){
+                    console.log("el estado de la reserva",res,"es solicitando")
+                    reservas[res].status = status
+                    updateFile()
+                    return reservas[res]
+                }
+                else{
+                    console.log("NO SE CONFIRMOOOOOO")
+                    throw "Pasaron mas de 60 segundos y no se confirmó el turno solicitado. Turno liberado, vuelva a intentarlo."
+                }
+            }          
         }else{
             throw "No se puede asignar el turno, el mismo ya esta ocupado."
         }
@@ -90,6 +87,7 @@ function checkIfConfirmed(id){
     const res = reservas.findIndex((r) => (r.id == id))
 
     if (reservas[res].status != RESERVADO){
+        console.log("CHECK IF CONFIRMED --> NO ESTA RESERVADO")
         reservas[res].status = DISPONIBLE
         reservas[res].userId = -1
         reservas[res].email = null
