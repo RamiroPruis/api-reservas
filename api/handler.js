@@ -65,7 +65,6 @@ function postById(req, res, id){
             if (tipo == "confirmar"){
                 reservaCreada = Reservas.create(reserva, RESERVADO)
                 console.log("Se confirmo la reserva")
-                res.writeHead(200,{'Content-Type': 'application/json'})
                 console.log("intentemos enviar mail")
                 enviarMail(reservaCreada)
             }
@@ -73,10 +72,10 @@ function postById(req, res, id){
                 reservaCreada = Reservas.create(reserva, SOLICITANDO)
                 console.log("Se solicito la reserva")
             }
+            // res.writeHead(200,{'Content-Type': 'application/json'})
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
         }
         catch(e){
-            console.log(e,res)
             errorHandler(ERROR_CODE,e,res)
         }
     })
@@ -94,6 +93,7 @@ function delById(req, res, id){
     catch(e){
         errorHandler(ERROR_CODE,e,res)
     }
+    
 }
 
 function getAll(req,res){

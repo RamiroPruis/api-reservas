@@ -3,9 +3,9 @@
 		"id": 1,
 		"dateTime": "2022-11-02T15:58:10.406Z",
 		"branchId": 3,
-		"status": 1,
-		"userId": "paqui",
-		"email": "asd"
+		"status": 0,
+		"userId": -1,
+		"email": null
 	},
 	{
 		"id": 2,
