@@ -6,9 +6,10 @@ const PORT_MAILER = 2020
 function enviarMail(reserva){
 
     const options = {
-        host:'localhost',
+        // host: `201.179.7.212`,
+        host: 'localhost',
         port: PORT_MAILER,
-        path: '/api/notificaciones',       
+        path: '/api/notificacion',       
         method: 'POST',
         headers:{
             'Content-type': 'application/json'
@@ -37,37 +38,24 @@ function enviarMail(reserva){
 }
 
 const sendMail = (options,body) => {
-
-    
-        
     const req = http.request(options,(res)=>{
         let data = []
-    
+        
         res.on('data',(chunk)=>data.push(chunk))
 
         res.on('end',()=>{
-            console.log("Data:",data)
-            let body = JSON.parse(Buffer.concat(data).toString())
-            console.log("bodyinterno",body)
+            
             if (res.statusCode!=202){
-                console.log(`No se pudo mandar el recordatorio a ${body.email}. Reintentando en 5 segundos`)
-                setTimeout(sendMail,5000, options, data)
+                console.log(`No se pudo mandar el recordatorio a ${body.destinatario}. Reintentando en 5 segundos`)
+                setTimeout(sendMail,5000, options,data)
             }
         })
-
-        res.on("error", ()=>{
-            console.log("Se hizo la conexion pero fallo algo ")
-        })
-
     })
-
     req.on("error",(error)=>{
         console.log("No se pudo mandar el mail porque el microservicio no esta disponible")
     })
-    console.log("body:", body)
-    req.write(JSON.stringify(body)) 
+    req.write(JSON.stringify(body))
     req.end()
 }
-
 
 export default enviarMail
