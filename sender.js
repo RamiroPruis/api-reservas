@@ -46,12 +46,17 @@ const sendMail = (options,body) => {
         res.on('data',(chunk)=>data.push(chunk))
 
         res.on('end',()=>{
-            
+            console.log("Data:",data)
             let body = JSON.parse(Buffer.concat(data).toString())
+            console.log("bodyinterno",body)
             if (res.statusCode!=202){
-                console.log(`No se pudo mandar el recordatorio a ${data.email}. Reintentando en 5 segundos`)
-                setTimeout(sendMail(options,data),5000)
+                console.log(`No se pudo mandar el recordatorio a ${body.email}. Reintentando en 5 segundos`)
+                setTimeout(sendMail,5000, options, data)
             }
+        })
+
+        res.on("error", ()=>{
+            console.log("Se hizo la conexion pero fallo algo ")
         })
 
     })
@@ -59,6 +64,7 @@ const sendMail = (options,body) => {
     req.on("error",(error)=>{
         console.log("No se pudo mandar el mail porque el microservicio no esta disponible")
     })
+    console.log("body:", body)
     req.write(JSON.stringify(body)) 
     req.end()
 }

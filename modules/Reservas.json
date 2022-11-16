@@ -3,17 +3,17 @@
 		"id": 1,
 		"dateTime": "2022-11-02T15:58:10.406Z",
 		"branchId": 3,
-		"status": 0,
-		"userId": -1,
-		"email": null
+		"status": 1,
+		"userId": 10,
+		"email": "joaquinfioriti9@gmail.com"
 	},
 	{
 		"id": 2,
 		"dateTime": "2022-11-02T19:58:10.406Z",
-		"userId": -1,
-		"email": null,
+		"userId": "paqui",
+		"email": "asd",
 		"branchId": 3,
-		"status": 0
+		"status": 1
 	},
 	{
 		"id": 6,
