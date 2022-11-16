@@ -7,9 +7,7 @@ import enviarMail from "../sender.js"
 
 const DISPONIBLE = 0
 const RESERVADO = 1
-const CONFIRMANDO = 2
-
-
+const SOLICITANDO = 2
 
 
 const ID_METHOD_HANDLER = {
@@ -70,16 +68,15 @@ function postById(req, res, id){
                 res.writeHead(200,{'Content-Type': 'application/json'})
                 console.log("intentemos enviar mail")
                 enviarMail(reservaCreada)
-               
-                
             }
             else if (tipo == "solicitar"){
-                reservaCreada = Reservas.create(reserva, CONFIRMANDO)
+                reservaCreada = Reservas.create(reserva, SOLICITANDO)
                 console.log("Se solicito la reserva")
             }
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
         }
         catch(e){
+            console.log(e,res)
             errorHandler(ERROR_CODE,e,res)
         }
     })

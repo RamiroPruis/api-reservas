@@ -1,6 +1,6 @@
-import http from 'http';
+import http from 'http'
 import {reservas} from "./api/handler.js"
-import errorHandler from './error.js';
+import errorHandler from './error.js'
 import url from 'url'
 
 
@@ -11,15 +11,14 @@ export const ERROR_CODE = 404
 
 
 const server = http.createServer((req,res)=>{
-
     const urlParsed = url.parse(`${BASE_URL}:${PORT}${req.url}`)
     
-
+    
     if (!urlParsed.pathname.includes('/api/reservas')){
         errorHandler(400,"Endpoint no valido",res)
     } else{
         if(urlParsed.pathname.includes('/api/reservas')){ //Como hacemos con los query params? ashe 
-            console.log(urlParsed.pathname)
+            console.log("entrando a reservasss")
             reservas(req,res)
         }else{
             errorHandler(400,"Endpoint no valido",res)
@@ -30,18 +29,3 @@ const server = http.createServer((req,res)=>{
 server.listen(PORT,()=>{
     console.log(`Escuchando en el puerto ${PORT}`)
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
