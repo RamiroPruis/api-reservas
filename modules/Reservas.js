@@ -36,17 +36,19 @@ export function create(reserva, status){
     let res = reservas.findIndex((r) => (r.id==reserva.id))
     if (res != -1){
         if (reservas[res].status != RESERVADO){
-            reservas[res].userId = reserva.userId
-            reservas[res].email = reserva.email
             
-            //Si se esta confirmando
+            
+            //Si se esta solicitando un turno
             if (status == SOLICITANDO){
-                reservas[res].status = status
+                reservas[res].userId = reserva.userId
+                reservas[res].email = reserva.email
+                reservas[res].status = SOLICITANDO
                 updateFile()
-                setTimeout(checkIfConfirmed, 3000, reserva.id);//1 minutos
+                setTimeout(checkIfConfirmed, 10000, reserva.id);//1 minutos
             }else{
+                //si se esta confirmando
                 if (reservas[res].status == SOLICITANDO){
-                    reservas[res].status = status
+                    reservas[res].status = RESERVADO
                     updateFile()
                     return reservas[res]
                 }
