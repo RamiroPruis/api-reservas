@@ -31,7 +31,6 @@ export const reservas = (req, res) => {
     }
     else{
         try{
-            console.log("hla", method)
             METHOD_HANDLER[method](req,res)
         }
         catch{
@@ -53,6 +52,7 @@ function getById(req, res, id){
 
 function postById(req, res, id){
     let body = []
+
     req.on('data',(chunk)=>{
         body += chunk
     })
@@ -65,13 +65,10 @@ function postById(req, res, id){
         try{
             if (tipo == "confirmar"){
                 reservaCreada = Reservas.create(reserva, RESERVADO)
-                console.log("Se confirmo la reserva")
-                console.log("intentemos enviar mail")
                 enviarMail(reservaCreada)
             }
             else if (tipo == "solicitar"){
                 reservaCreada = Reservas.create(reserva, SOLICITANDO)
-                console.log("Se solicito la reserva")
             }
             // res.writeHead(200,{'Content-Type': 'application/json'})
             res.end(JSON.stringify({}))//TODO: Esta bien que esto este vacio? asi quedamos con los otros chabones
@@ -86,7 +83,6 @@ function postById(req, res, id){
 
 function delById(req, res, id){
     try{
-    
         Reservas.del(id)
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(JSON.stringify({}))
@@ -98,16 +94,9 @@ function delById(req, res, id){
 }
 
 function getAll(req,res){
-    console.log("holaaa2")
     const queryObject = url.parse(req.url,true).query
-    console.log("hola3")
-
     const reservas = Reservas.findWithFilters(queryObject)
-    console.log("hola4")
-
     res.writeHead(200,{'Content-Type': 'application/json'})
-    console.log("hola5", reservas)
-    res.end(JSON.stringify(reservas))
-    console.log("hola6")
+    res.end(JSON.stringify(reservas))   
 }
 

@@ -46,7 +46,6 @@ const sendMail = (options,body) => {
         res.on('end',()=>{
             
             if (res.statusCode!=202){
-                console.log(`No se pudo mandar el recordatorio a ${body.destinatario}. Reintentando en 5 segundos`)
                 setTimeout(sendMail,5000, options,data)
             }
         })
