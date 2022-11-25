@@ -42,8 +42,8 @@
 	{
 		"id": 9,
 		"dateTime": "2022-10-29T14:40:10.406Z",
-		"userId": "paqui",
-		"email": "asd",
+		"userId": -1,
+		"email": null,
 		"branchId": 3,
 		"status": 1
 	}
